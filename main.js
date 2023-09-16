@@ -30,6 +30,8 @@ const myField = new Field([
   ]);
 
   const startGame = () => {
+    currentIndex = [0,0];
+    moveIndex = [0,0];
     while (!inGame) {
         let startInput = prompt('Would you like to play? Y/N: ');
         startInput = startInput.toUpperCase();
@@ -43,7 +45,7 @@ const myField = new Field([
                 process.exit();
                 break;
             default:
-                console.log('Invalid choice.');
+                console.log('Invalid choice. Please use single letter.');
         }
     }
 }
@@ -93,10 +95,12 @@ let checkNewPosition = (moveIndex, myField) => {
     if (moveIndex === hole){
         console.log('You fell into a hole and died. Restarting game...');
         console.log('==================');
+        inGame = false;
         startGame();
     } else if (moveIndex[0] < 0 || moveIndex[1] < 0 || moveIndex[0] > fieldWidth || moveIndex[1] > fieldHeight){
         console.log('You fell off the cliff and died. Restarting game...')
         console.log('==================');
+        inGame = false;
         startGame();
     } else if (moveIndex === hat){
         console.log('You found the sorting hat! GRYFFINDOR!');
