@@ -87,6 +87,27 @@ let moveDirection = (moveInput) => {
     return moveIndex;
 }
 
+let checkNewPosition = (moveIndex, myField) => {
+    const fieldHeight = myField.field.length;
+    const fieldWidth = myField.field[0].length;
+    if (moveIndex === hole){
+        console.log('You fell into a hole and died. Restarting game...');
+        console.log('==================');
+        startGame();
+    } else if (moveIndex[0] < 0 || moveIndex[1] < 0 || moveIndex[0] > fieldWidth || moveIndex[1] > fieldHeight){
+        console.log('You fell off the cliff and died. Restarting game...')
+        console.log('==================');
+        startGame();
+    } else if (moveIndex === hat){
+        console.log('You found the sorting hat! GRYFFINDOR!');
+        process.exit();
+    } else {
+        myField.field[moveIndex[0]][moveIndex[1]] = pathCharacter;
+        currentIndex = moveIndex;
+        return currentIndex;
+    }
+};
+
 
 
 startGame();
