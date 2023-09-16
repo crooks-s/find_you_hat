@@ -4,6 +4,9 @@ const hat = '^';
 const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
+let inGame = false;
+let currentIndex = [0,0];
+let moveIndex = [0,0];
 
 class Field {
     constructor(field) {
@@ -63,6 +66,26 @@ const playingGame = () => {
 }
 
 
+let moveDirection = (moveInput) => {
+    switch(moveInput){
+        case 'R':
+            moveIndex = [moveIndex[0], moveIndex[1] + 1]
+            break;
+        case 'L':
+            moveIndex = [moveIndex[0], moveIndex[1] - 1]
+            break;
+        case 'U':
+            moveIndex = [moveIndex[0] - 1, moveIndex[1]]
+            break;
+        case 'D':
+            moveIndex = [moveIndex[0] + 1, moveIndex[1]]
+            break;
+        default:
+            console.log('==========')
+            console.log('Invalid direction/input. Try again.');
+    }
+    return moveIndex;
+}
 
 
 
