@@ -26,4 +26,27 @@ const myField = new Field([
     ['░', '^', '░'],
   ]);
 
-  
+  const startGame = () => {
+    while (!inGame) {
+        let startInput = prompt('Would you like to play? Y/N: ');
+        startInput = startInput.toUpperCase();
+        switch(startInput){
+            case 'Y':
+                inGame = true;
+                playingGame();
+                break;
+            case 'N':
+                console.log('Exiting game.');
+                process.exit();
+                break;
+            default:
+                console.log('Invalid choice.');
+        }
+    }
+}
+
+
+
+
+
+startGame();
