@@ -17,3 +17,13 @@ class Field {
         }
     }
 };
+
+
+// Instantiate a new Field
+const myField = new Field([
+    ['*', '░', 'O'],
+    ['░', 'O', '░'],
+    ['░', '^', '░'],
+  ]);
+
+  
