@@ -45,6 +45,23 @@ const myField = new Field([
     }
 }
 
+const playingGame = () => {
+    console.log('========= NOW PLAYING GAME ==========')
+    console.log('TO RESET GAME: Type reset or use command CTRL+C');
+    console.log('---');
+    while (inGame) {
+        // Print the field with player path
+        myField.print();
+        // Prompt user for move input
+        let moveInput = prompt('Which direction? (R/L/U/D): ');
+        moveInput = moveInput.toUpperCase();
+        // Move in specified direction AND return moveIndex
+        moveDirection(moveInput);
+        // If moveIndex === XYZ, then do something
+        checkNewPosition(moveIndex, myField);
+    }
+}
+
 
 
 
