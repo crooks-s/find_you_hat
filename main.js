@@ -7,7 +7,7 @@ const pathCharacter = '*';
 let inGame = false;
 let currentIndex = [0,0];
 let moveIndex = [0,0];
-let randomNum = ((Math.floor(Math.random()*50)) / 100);
+const randomNum = Math.floor(Math.random()*50);
 
 class Field {
     constructor(field) {
@@ -21,8 +21,8 @@ class Field {
         }
     }
 
-    static generateField(height, width, percentHoles){
-        // logic
+    static generateField(height, width, randomNum){
+        // 
     }
 };
 
@@ -116,12 +116,12 @@ let checkNewPosition = (moveIndex, myField) => {
     const fieldHeight = myField.field.length;
     const fieldWidth = myField.field[0].length;
     if (myField.field[moveIndex[0]][moveIndex[1]] === hole){
-        console.log('You fell into a hole and died. Restarting game...');
+        console.log('You fell into a hole and died.');
         console.log('==================');
         inGame = false;
         resetGame();
     } else if (moveIndex[0] < 0 || moveIndex[1] < 0 || moveIndex[0] > fieldWidth || moveIndex[1] > fieldHeight){
-        console.log('You fell off the cliff and died. Restarting game...')
+        console.log('You fell off of a cliff and died.')
         console.log('==================');
         inGame = false;
         resetGame();
