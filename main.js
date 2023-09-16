@@ -7,6 +7,7 @@ const pathCharacter = '*';
 let inGame = false;
 let currentIndex = [0,0];
 let moveIndex = [0,0];
+let randomNum = ((Math.floor(Math.random()*50)) / 100);
 
 class Field {
     constructor(field) {
@@ -19,8 +20,11 @@ class Field {
             console.log(joinSections);
         }
     }
-};
 
+    static generateField(height, width, percentHoles){
+        // logic
+    }
+};
 
 // Instantiate a new Field
 const myField = new Field([
@@ -29,9 +33,28 @@ const myField = new Field([
     ['░', '^', '░'],
   ]);
 
-  const startGame = () => {
+const resetGame = () => {
     currentIndex = [0,0];
     moveIndex = [0,0];
+    while (!inGame){
+        let replayInput = prompt('Would you like to play again? Y/N: ');
+        replayInput = replayInput.toUpperCase();
+        switch(replayInput){
+            case 'Y':
+                inGame = true;
+                playingGame();
+                break;
+            case 'N':
+                console.log('Exiting game.');
+                process.exit();
+                break;
+            default:
+                console.log('Invalid choice. Please use single letter.');
+        }
+   }
+ }  
+
+const startGame = () => {
     while (!inGame) {
         let startInput = prompt('Would you like to play? Y/N: ');
         startInput = startInput.toUpperCase();
@@ -96,15 +119,16 @@ let checkNewPosition = (moveIndex, myField) => {
         console.log('You fell into a hole and died. Restarting game...');
         console.log('==================');
         inGame = false;
-        startGame();
+        resetGame();
     } else if (moveIndex[0] < 0 || moveIndex[1] < 0 || moveIndex[0] > fieldWidth || moveIndex[1] > fieldHeight){
         console.log('You fell off the cliff and died. Restarting game...')
         console.log('==================');
         inGame = false;
-        startGame();
+        resetGame();
     } else if (myField.field[moveIndex[0]][moveIndex[1]] === hat){
-        console.log('You found the sorting hat! GRYFFINDOR!');
-        process.exit();
+        console.log('You found the sorting hat!\nGRYFFINDOR!');
+        inGame = false;
+        resetGame();
     } else {
         myField.field[moveIndex[0]][moveIndex[1]] = pathCharacter;
         currentIndex = moveIndex;
