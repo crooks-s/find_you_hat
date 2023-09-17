@@ -127,8 +127,8 @@ let checkNewPosition = (moveIndex, myField) => {
     //
     //   } else if (
     //     (moveIndex[0] < 0)
-    //     || moveIndex[1] < 0)
-    //     || moveIndex[0] > fieldWidth)
+    //     || (moveIndex[1] < 0)
+    //     || (moveIndex[0] > fieldWidth)
     //     || (moveIndex[1] > fieldHeight)
     //   ) {
     //     ... rest of code
