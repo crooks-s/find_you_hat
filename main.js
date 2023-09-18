@@ -7,7 +7,15 @@ const pathCharacter = '*';
 let inGame = false;
 let currentIndex = [0,0];
 let moveIndex = [0,0];
+// this will be used for number of holes later in project
 const randomNum = Math.floor(Math.random()*50);
+
+const randomSpot = (intA, intB) => {
+    let x = Math.floor(Math.random() * intA);
+    let y = Math.floor(Math.random() * intB);
+    let z = [x, y];
+    return z;
+}
 
 class Field {
     constructor(field) {
@@ -18,7 +26,7 @@ class Field {
     // initial state?
     resetField() { }
 
-    // TODO(crookse) Add doc block to explain what this does
+    // Prints the game field
     print(){
         for(let i = 0; i < this.field.length; i++){
             const joinSections = this.field[i].join('');
@@ -26,12 +34,31 @@ class Field {
         }
     }
 
-    static generateField(height, width, randomNum){
-        // 
+    // random Field generator
+    static generateField(height, width){
+        let randomField = [];
+        for (let i = 0; i < height; i++){
+            let row = [];
+            for (let j=0; j < width; j++){
+                let x = Math.floor(Math.random() * 3);
+                if (x === 0){
+                    row.push(hole);
+                } else {
+                    row.push(fieldCharacter);
+                }
+            }
+            randomField.push(row);
+        }
+        let pathMark, hatMark;
+        pathMark = randomSpot(height, width);
+        randomField[pathMark[0]][pathMark[1]] = pathCharacter;
+        hatMark = randomSpot(height, width); 
+        randomField[hatMark[0]][hatMark[1]] = hat;
+        return new Field(randomField);
     }
 };
 
-// Instantiate a new Field
+// Instantiate a new Field. Use this for starterField
 const myField = new Field([
 //    0    1    2
     ['*', '░', 'O'], // 0
@@ -111,6 +138,10 @@ let moveDirection = (moveInput) => {
             break;
         case 'D':
             moveIndex = [moveIndex[0] + 1, moveIndex[1]]
+            break;
+        case 'RESET':
+            inGame = false;
+            resetGame();
             break;
         default:
             console.log('==========')
