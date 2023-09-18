@@ -151,8 +151,8 @@ let moveDirection = (moveInput) => {
 }
 
 let checkNewPosition = (moveIndex, myField) => {
-    const fieldHeight = myField.field.length;
-    const fieldWidth = myField.field[0].length;
+    const fieldPositiveY = myField.field[moveIndex[0]];
+    const fieldPositiveX = myField.field[moveIndex[1]];
 
     // The value of `moveIndex[0]` could be `-1` which means `myField.field[-1]`
     // could be accessed when it does not exist. Since arrays never have a
@@ -170,7 +170,10 @@ let checkNewPosition = (moveIndex, myField) => {
     //   the conditional further and moves on to the next set of code -- safely
     //   keeping the program running.
     //
-    if (myField.field[moveIndex[0]][moveIndex[1]] === hole){
+    if (
+        fieldPositiveX 
+        && fieldPositiveY 
+        && myField.field[moveIndex[0]][moveIndex[1]] === hole){
         console.log('You fell into a hole and died.');
         console.log('==================');
         inGame = false;
@@ -178,10 +181,8 @@ let checkNewPosition = (moveIndex, myField) => {
     
 
     } else if (
-        (moveIndex[0] < 0)
-        || (moveIndex[1] < 0)
-        || (moveIndex[0] > fieldWidth)
-        || (moveIndex[1] > fieldHeight)
+        !fieldPositiveX 
+        || !fieldPositiveY
         ){
         console.log('You fell off of a cliff and died.')
         console.log('==================');
