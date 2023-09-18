@@ -14,6 +14,11 @@ class Field {
         this.field = field;
     };
 
+    // TODO(crookse) When the game restarts, should the field clear to its
+    // initial state?
+    resetField() { }
+
+    // TODO(crookse) Add doc block to explain what this does
     print(){
         for(let i = 0; i < this.field.length; i++){
             const joinSections = this.field[i].join('');
@@ -28,9 +33,11 @@ class Field {
 
 // Instantiate a new Field
 const myField = new Field([
-    ['*', '░', 'O'],
-    ['░', 'O', '░'],
-    ['░', '^', '░'],
+//    0    1    2
+    ['*', '░', 'O'], // 0
+    ['░', 'O', '░'], // 1
+    ['░', '^', '░'], // 2
+//    0    1    2
   ]);
 
 const resetGame = () => {
@@ -115,12 +122,36 @@ let moveDirection = (moveInput) => {
 let checkNewPosition = (moveIndex, myField) => {
     const fieldHeight = myField.field.length;
     const fieldWidth = myField.field[0].length;
+
+    // The value of `moveIndex[0]` could be `-1` which means `myField.field[-1]`
+    // could be accessed when it does not exist. Since arrays never have a
+    // negative index, checking to see if a negative index is about to be used
+    // on an array would protect the program from breaking. This situation is
+    // called an edge case since it is assumed that the user will never go
+    // outside the bounds of the game. In practice, you will probably see
+    // something similar to the following:
+    //
+    //   const field = myField.field[moveIndex[0]];
+    //   if (field && field === hole) { /* dead */ }
+    //
+    //   The `if (field` part is just checking if the `field` variable is a
+    //   truthy value. If it is not truthy, then the program does not execute
+    //   the conditional further and moves on to the next set of code -- safely
+    //   keeping the program running.
+    //
     if (myField.field[moveIndex[0]][moveIndex[1]] === hole){
         console.log('You fell into a hole and died.');
         console.log('==================');
         inGame = false;
         resetGame();
-    } else if (moveIndex[0] < 0 || moveIndex[1] < 0 || moveIndex[0] > fieldWidth || moveIndex[1] > fieldHeight){
+    
+
+    } else if (
+        (moveIndex[0] < 0)
+        || (moveIndex[1] < 0)
+        || (moveIndex[0] > fieldWidth)
+        || (moveIndex[1] > fieldHeight)
+        ){
         console.log('You fell off of a cliff and died.')
         console.log('==================');
         inGame = false;
