@@ -82,7 +82,7 @@ const resetGame = () => {
                 playingGame();
                 break;
             case 'N':
-                console.log('Exiting game.');
+                console.log('See you space cowboy...');
                 process.exit();
                 break;
             default:
@@ -93,7 +93,7 @@ const resetGame = () => {
 
 const startGame = () => {
     while (!inGame) {
-        let startInput = prompt('Would you like to play? Y/N: ');
+        let startInput = prompt('Would you like to play Find Your Hat? Y/N: ');
         startInput = startInput.toUpperCase();
         switch(startInput){
             case 'Y':
