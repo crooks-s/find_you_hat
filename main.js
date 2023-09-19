@@ -7,9 +7,9 @@ const pathCharacter = '*';
 let inGame = false;
 let currentIndex = [0,0];
 let moveIndex = [0,0];
-// this will be used for number of holes later in project
-const randomNum = Math.floor(Math.random()*50);
 
+// thes will be used for number of holes later in project
+const randomNum = Math.floor(Math.random()*50);
 const randomSpot = (intA, intB) => {
     let x = Math.floor(Math.random() * intA);
     let y = Math.floor(Math.random() * intB);
@@ -101,7 +101,7 @@ const startGame = () => {
                 playingGame();
                 break;
             case 'N':
-                console.log('Exiting game.');
+                console.log('See you space cowboy...');
                 process.exit();
                 break;
             default:
@@ -111,7 +111,7 @@ const startGame = () => {
 }
 
 const gameTitleText = () => {
-    console.log('========= NOW PLAYING GAME ==========')
+    console.log('========= NOW PLAYING: "Find your hat." ==========')
     console.log('TO RESET GAME: Type reset or use command CTRL+C');
     console.log('---');
 }
@@ -176,7 +176,7 @@ let checkNewPosition = (moveIndex, myField) => {
         inGame = false;
         resetGame();
     } else if (myField.field[moveIndex[0]][moveIndex[1]] === hat){
-        console.log('You found the sorting hat!\nGRYFFINDOR!');
+        console.log('You found your hat!\nSee you space cowboy...');
         inGame = false;
         resetGame();
     } else {
