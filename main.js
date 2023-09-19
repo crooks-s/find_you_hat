@@ -9,6 +9,7 @@ let currentIndex = [0,0];
 let moveIndex = [0,0];
 // this will be used for number of holes later in project
 const randomNum = Math.floor(Math.random()*50);
+let initField;
 
 const randomSpot = (intA, intB) => {
     let x = Math.floor(Math.random() * intA);
@@ -20,13 +21,15 @@ const randomSpot = (intA, intB) => {
 class Field {
     constructor(field) {
         this.field = field;
+        this.originalArray = JSON.parse(JSON.stringify(field));
     };
 
-    // TODO(crookse) When the game restarts, should the field clear to its
-    // initial state?
-    resetField() { }
+    // Resets the field to its original state
+    resetField() {
+        this.field = JSON.parse(JSON.stringify(this.originalArray));
+     }
 
-    // Prints the game field
+    // Prints the game field by iterating through each item
     print(){
         for(let i = 0; i < this.field.length; i++){
             const joinSections = this.field[i].join('');
@@ -34,7 +37,7 @@ class Field {
         }
     }
 
-    // random Field generator
+    // random Field generator that takes a height and width to fill a 2-D array with the required game pieces
     static generateField(height, width){
         let randomField = [];
         for (let i = 0; i < height; i++){
@@ -68,6 +71,8 @@ const myField = new Field([
   ]);
 
 const resetGame = () => {
+    myField.resetField();
+    myField.print();
     currentIndex = [0,0];
     moveIndex = [0,0];
     while (!inGame){
@@ -112,12 +117,13 @@ const playingGame = () => {
     console.log('TO RESET GAME: Type reset or use command CTRL+C');
     console.log('---');
     while (inGame) {
-        // Print the field with player path
+        // Print the field with player path;
         myField.print();
+        console.log(initField);
         // Prompt user for move input
         let moveInput = prompt('Which direction? (R/L/U/D): ');
         moveInput = moveInput.toUpperCase();
-        // Move in specified direction AND return moveIndex
+        // Move in specified direction and return moveIndex
         moveDirection(moveInput);
         // If moveIndex === XYZ, then do something
         checkNewPosition(moveIndex, myField);
@@ -154,22 +160,6 @@ let checkNewPosition = (moveIndex, myField) => {
     const fieldPositiveY = myField.field[moveIndex[0]];
     const fieldPositiveX = myField.field[moveIndex[1]];
 
-    // The value of `moveIndex[0]` could be `-1` which means `myField.field[-1]`
-    // could be accessed when it does not exist. Since arrays never have a
-    // negative index, checking to see if a negative index is about to be used
-    // on an array would protect the program from breaking. This situation is
-    // called an edge case since it is assumed that the user will never go
-    // outside the bounds of the game. In practice, you will probably see
-    // something similar to the following:
-    //
-    //   const field = myField.field[moveIndex[0]];
-    //   if (field && field === hole) { /* dead */ }
-    //
-    //   The `if (field` part is just checking if the `field` variable is a
-    //   truthy value. If it is not truthy, then the program does not execute
-    //   the conditional further and moves on to the next set of code -- safely
-    //   keeping the program running.
-    //
     if (
         fieldPositiveX 
         && fieldPositiveY 
@@ -178,8 +168,6 @@ let checkNewPosition = (moveIndex, myField) => {
         console.log('==================');
         inGame = false;
         resetGame();
-    
-
     } else if (
         !fieldPositiveX 
         || !fieldPositiveY
@@ -198,7 +186,5 @@ let checkNewPosition = (moveIndex, myField) => {
         return currentIndex;
     }
 };
-
-
 
 startGame();
