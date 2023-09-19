@@ -9,7 +9,6 @@ let currentIndex = [0,0];
 let moveIndex = [0,0];
 // this will be used for number of holes later in project
 const randomNum = Math.floor(Math.random()*50);
-let initField;
 
 const randomSpot = (intA, intB) => {
     let x = Math.floor(Math.random() * intA);
@@ -21,7 +20,7 @@ const randomSpot = (intA, intB) => {
 class Field {
     constructor(field) {
         this.field = field;
-        this.originalArray = JSON.parse(JSON.stringify(field));
+        this.originalArray = JSON.parse(JSON.stringify(field)); // creates deep copy of field
     };
 
     // Resets the field to its original state
@@ -72,7 +71,6 @@ const myField = new Field([
 
 const resetGame = () => {
     myField.resetField();
-    myField.print();
     currentIndex = [0,0];
     moveIndex = [0,0];
     while (!inGame){
@@ -112,20 +110,24 @@ const startGame = () => {
     }
 }
 
-const playingGame = () => {
+const gameTitleText = () => {
     console.log('========= NOW PLAYING GAME ==========')
     console.log('TO RESET GAME: Type reset or use command CTRL+C');
     console.log('---');
+}
+
+const playingGame = () => {
+    gameTitleText();
     while (inGame) {
-        // Print the field with player path;
+        // Print the field with necessary game pieces
         myField.print();
-        console.log(initField);
         // Prompt user for move input
         let moveInput = prompt('Which direction? (R/L/U/D): ');
         moveInput = moveInput.toUpperCase();
         // Move in specified direction and return moveIndex
         moveDirection(moveInput);
-        // If moveIndex === XYZ, then do something
+        // If moveIndex === ABC, then do XYZ,
+        // then repeat loop.
         checkNewPosition(moveIndex, myField);
     }
 }
@@ -150,7 +152,6 @@ let moveDirection = (moveInput) => {
             resetGame();
             break;
         default:
-            console.log('==========')
             console.log('Invalid direction/input. Try again.');
     }
     return moveIndex;
@@ -165,7 +166,6 @@ let checkNewPosition = (moveIndex, myField) => {
         && fieldPositiveY 
         && myField.field[moveIndex[0]][moveIndex[1]] === hole){
         console.log('You fell into a hole and died.');
-        console.log('==================');
         inGame = false;
         resetGame();
     } else if (
@@ -173,7 +173,6 @@ let checkNewPosition = (moveIndex, myField) => {
         || !fieldPositiveY
         ){
         console.log('You fell off of a cliff and died.')
-        console.log('==================');
         inGame = false;
         resetGame();
     } else if (myField.field[moveIndex[0]][moveIndex[1]] === hat){
